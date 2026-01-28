@@ -1,0 +1,132 @@
+
+
+
+
+.font-1-medium{
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.font-1-regular{
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-1-semibold{
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.font-1-bold{
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+
+
+
+.font-2-regular {
+  font-family: "Padauk", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-2-bold {
+  font-family: "Padauk", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+
+.font-3-extralight {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.font-3-light {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.font-3-regular {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-3-medium {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.font-3-semibold {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.font-3-bold {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+
+
+
+
+.font-4-extralight {
+  font-family: "Mukta Mahee", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.font-4-light {
+  font-family: "Mukta Mahee", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.font-4-regular {
+  font-family: "Mukta Mahee", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-4-medium {
+  font-family: "Mukta Mahee", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.font-4-semibold {
+  font-family: "Mukta Mahee", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.font-4-bold {
+  font-family: "Mukta Mahee", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.font-4-extrabold {
+  font-family: "Mukta Mahee", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
