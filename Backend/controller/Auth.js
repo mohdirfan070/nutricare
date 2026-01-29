@@ -73,7 +73,7 @@ const login = async (req, res) => {
         const token = jwt.sign(
             { id: result._id, name: result.name },
             JWT_SECRET,
-            { expiresIn: "1d" }
+            { expiresIn: "2d" }
         );
         res.cookie("token", token, {
             httpOnly: false,

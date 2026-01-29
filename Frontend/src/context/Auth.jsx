@@ -28,7 +28,7 @@ export default function AuthContextComponent({ children }) {
   }, []);
 
   useEffect(() => {
-    console.log("Current User:", currentUser);
+    // console.log("Current User:", currentUser);
   }, [currentUser]);
 
   return (
