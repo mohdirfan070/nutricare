@@ -2,7 +2,7 @@ function MenuItem({ icon, label, badge, active, onClick }) {
   return (
     <div
       onClick={onClick}
-      className={`border-b border-black flex items-center justify-between px-[5%] py-[4%] rounded-xl ${
+      className={`shadow-lg shadow-black/20 flex items-center justify-between px-[5%] py-[4%] rounded-xl ${
         active ? "bg-green-50" : "hover:bg-gray-50"
       } active:scale-[0.98] transition cursor-pointer select-none`}
     >

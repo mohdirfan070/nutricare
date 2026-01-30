@@ -1,37 +1,30 @@
-
-
-
-
-.font-1-medium{
+.font-1-medium {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
 }
 
-.font-1-regular{
+.font-1-regular {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
 
-.font-1-semibold{
+.font-1-semibold {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
 }
 
-.font-1-bold{
+.font-1-bold {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
 }
-
-
-
 
 .font-2-regular {
   font-family: "Padauk", sans-serif;
@@ -44,8 +37,6 @@
   font-weight: 700;
   font-style: normal;
 }
-
-
 
 .font-3-extralight {
   font-family: "Kodchasan", sans-serif;
@@ -82,11 +73,6 @@
   font-weight: 700;
   font-style: normal;
 }
-
-
-
-
-
 
 .font-4-extralight {
   font-family: "Mukta Mahee", sans-serif;
@@ -130,3 +116,7 @@
   font-style: normal;
 }
 
+/* Hide scrollbar but keep scroll working */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
