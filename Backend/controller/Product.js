@@ -40,8 +40,6 @@ const getProducts = async (req, res) => {
 };
 
 // Get single product by ID
-
-
 const getProduct = async (req, res) => {
   try {
     const product = await Product.findOne(req.params.barcodenumber);
@@ -91,5 +89,10 @@ const deleteProduct = async (req, res) => {
     return res.status(500).json({ message: 'Error deleting product', error: error.message });
   }
 };
+
+
+
+
+
 
 module.exports = { createProduct , deleteProduct , getProduct , updateProduct , getProducts};

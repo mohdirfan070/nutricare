@@ -3,6 +3,8 @@ import Quagga from "@ericblade/quagga2";
 import axios from "axios";
 import ProductDetailsCard from "../components/Product.jsx";
 import { useProductContext } from "../context/ProductContext.jsx";
+import { useAuthContext } from "../context/Auth.jsx";
+
 
 const FOOD_PRODUCT_API_URL = "https://world.openfoodfacts.org/api/v0/product";
 
@@ -15,6 +17,7 @@ export default function BarcodeScan() {
   const [errorMessage, setErrorMessage] = useState("");
   const [productData, setProductData] = useState(null);
   const { updateProductContext } = useProductContext();
+  const {currentUser} = useAuthContext();
 
     useEffect(() => {
       let stream;
@@ -125,6 +128,8 @@ export default function BarcodeScan() {
               response.data.product &&
               Object.keys(response.data.product).length > 0
             ) {
+              // await axios.post("/user/history", { userId:currentUser.email });
+              console.log(barcode);
               setProductData(response.data.product);
               updateProductContext(response.data.product);
             } else {

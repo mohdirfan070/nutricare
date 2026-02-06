@@ -40,9 +40,9 @@ export default function ProductDetailsCard({ productData, result }) {
   const getSeverityColor = (score) => {
     if (score === 0) return "bg-blue-500"; // neutral
     if (score <= 2) return "bg-green-500";
-    if (score <= 4) return "bg-yellow-500";
+    if (score <= 4) return "bg-yellow";
     if (score <= 6) return "bg-orange-500";
-    return "bg-red-600"; // severe
+     if(score>=6) return "bg-red"; // severe
   };
 
   const severityColor = getSeverityColor(severityScore);
@@ -67,11 +67,11 @@ export default function ProductDetailsCard({ productData, result }) {
       {/* 🟢 Circular Severity Indicator */}
       <div className="absolute top-4 right-4 flex flex-col items-center">
         <div
-          className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold shadow-md ${severityColor}`}
+          className={` ${severityColor} w-8 h-8 rounded-full  flex items-center justify-center text-white font-bold shadow-md ` }
         >
           {severityScore}
         </div>
-        <span className="text-xs mt-1 text-gray-600">Risk Score</span>
+        {/* <span className="text-xs mt-1 text-gray-600">Risk Score</span> */}
       </div>
 
       <img
