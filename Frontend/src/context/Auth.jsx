@@ -15,7 +15,6 @@ export default function AuthContextComponent({ children }) {
         { withCredentials: true }
       );
       setCurrentUser(res.data.user);
-      // console.log(res.data.user);
     } catch (err) {
       setCurrentUser(null);
     } finally {

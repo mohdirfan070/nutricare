@@ -71,8 +71,18 @@ function ProfileDetails({ onBack }) {
           editMode={editMode}
           onChange={handleChange}
           type="select"
-          options={["Male", "Female"]}
+          options={["male", "female"]}
         />
+        <EditableField
+          label="Language"
+          name="language"
+          value={formData.language}
+          editMode={editMode}
+          onChange={handleChange}
+          type="select"
+          options={["english", "hindi" ,"arabic"]}
+        />
+
 
         <EditableField
           label="Height"
@@ -96,18 +106,18 @@ function ProfileDetails({ onBack }) {
           onChange={handleChange}
         />
       </div>
-      <div className="mt-4 flex justify-center gap-4">
+      <div className="mt-4 flex justify-center gap-4 w-[80%] ">
         {editMode ? (
           <button
             onClick={handleSave}
-            className="bg-[#79c66e] text-xl px-6 py-2 rounded-full font-medium"
+            className="bg-[#79c66e] text-xl px-6 py-2 rounded-full font-medium w-full font-2-regular "
           >
             Save
           </button>
         ) : (
           <button
             onClick={() => setEditMode(true)}
-            className="bg-gray-200 text-xl px-6 py-2 rounded-full font-medium"
+            className="bg-gray-200 text-xl px-6 py-2 rounded-full font-medium w-full font-2-regular"
           >
             Edit
           </button>

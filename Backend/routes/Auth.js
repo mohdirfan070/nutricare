@@ -6,7 +6,6 @@ const {
   getUser,
   updateUser,
   logout,
-  
 } = require("../controller/Auth");
 router.route("/login").post(login);
 router.route("/signup").post(signup);

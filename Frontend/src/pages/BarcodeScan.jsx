@@ -180,7 +180,7 @@ export default function BarcodeScan() {
         className="absolute bottom-[2vh] left-[50%] translate-x-[-50%] z-20"
       >
         <div className="bg-pvt-color5 border-[0.52vh] border-pvt-color2 p-[0.31vh] rounded-full">
-          <div className="bg-white rounded-full w-[50px] h-[50px] border-[2px] border-white" />
+          <div className="bg-red rounded-full w-[50px] h-[50px] border-[2px] border-white" />
         </div>
       </button>
 

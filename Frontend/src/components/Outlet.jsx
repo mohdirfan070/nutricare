@@ -31,20 +31,7 @@ export default function Layout() {
       navigate("/profile");
     }
   }, [currentUser, loading, location.pathname, navigate]);
-  //   const token = Cookies.get("token");
 
-  //   if (!token) {
-  //     // If no token, redirect to login
-  //     if (location.pathname !== "/signup") {
-  //       navigate("/login");
-  //     }
-  //   } else {
-  //     // If token exists, redirect to home
-  //     if (location.pathname === "/login" || location.pathname === "/signup") {
-  //       navigate("/");
-  //     }
-  //   }
-  // }, [navigate, location.pathname]);
 
   return (
     <>

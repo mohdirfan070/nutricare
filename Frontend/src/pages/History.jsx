@@ -55,7 +55,7 @@ export default function History() {
 
 
   return (
-    <div className="p-6 h-[75dvh] w-[98dvw] overflow-auto bg-white relative">
+    <div className="p-6 h-[78dvh] w-[98dvw] overflow-auto bg-white relative mt-12">
       {/* ✅ Success Popup */}
       {successMessage && (
         <div className="absolute top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-md">
@@ -64,7 +64,7 @@ export default function History() {
       )}
 
       {savedProducts.length === 0 ? (
-        <div className="h-[75dvh] w-[90dvw] bg-white flex justify-center items-center mt-3">
+        <div className="h-[75dvh] w-[90dvw] bg-white flex justify-start pl-[30%] items-center mt-3">
           <div className="text-center">
             <p className="text-lg mb-4">No saved products yet.</p>
             <Link
