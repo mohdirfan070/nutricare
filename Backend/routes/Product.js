@@ -4,7 +4,9 @@ const {
   getProducts,
   getProduct,
   updateProduct,
-  deleteProduct
+  fetchUserSavedProducts,
+  deleteProduct,
+  saveProduct
 } = require("../controller/Product.js");
 
 // Create a new product
@@ -21,5 +23,11 @@ router.route("/:barcodenumber").put(updateProduct);
 
 // Delete a product by ID
 router.route("/:barcodenumber").delete(deleteProduct);
+
+router.route("/savedproducts").post(fetchUserSavedProducts);
+
+router.route("/saveproduct").post(saveProduct);
+
+router.route("/deletesavedproduct").delete(deleteProduct);
 
 module.exports = router;

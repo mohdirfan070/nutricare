@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useAuthContext } from "../context/Auth";
 
 export default function IngredientsScan({ initialText = "" }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(document.createElement("canvas"));
+  const { currentUser } =  useAuthContext();
   const [result, setResult] = useState(initialText); // ✅ takes prop
   const [loading, setLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
@@ -89,7 +91,7 @@ export default function IngredientsScan({ initialText = "" }) {
 
       const data = await response.json();
       const translatedAndFormatted = await window.puter.ai.chat(
-        `Translate the following text to English and format it clearly with headings, tables or lists and dont send any single word extra including translated not even heres your translated text etc... and provide in a good format including paragraphs,heading, tables:\n\n${data.result}`,
+        `Translate the following text to ${currentUser?.language}  and format it clearly with headings, tables or lists and dont send any single word extra including translated not even heres your translated text etc... and provide in a good format including paragraphs,heading, tables:\n\n${data.result}`,
         { model: "gpt-5-nano" }
       );
 
@@ -111,7 +113,7 @@ export default function IngredientsScan({ initialText = "" }) {
     setAiResponse("Preparing report..."); // show placeholder
     try {
       const response = await window.puter.ai.chat(
-        `Based on the following product ingredients/info, answer questions about safety, nutrition, or usage give about 100-120 words in sections like 1:It should be avoid by people suffering with allergens, medical diagonsis, age, 2:which amount is good and not harmfull and 3:the benefits it provides:\n\n${result}`,
+        `Based on the following product ingredients/info, answer questions about safety, nutrition, or usage give about 100-120 words in ${currentUser?.language} in sections like 1:It should be avoid by people suffering with allergens, medical diagonsis, age, 2:which amount is good and not harmfull and 3:the benefits it provides:\n\n${result} and here the details about the user `,
         { model: "gpt-5-nano" }
       );
       setAiResponse(response.message.content);
@@ -152,11 +154,11 @@ export default function IngredientsScan({ initialText = "" }) {
               id="lang"
               defaultValue="en"
               onChange={(e) => setLang(e.target.value)}
-              className="px-6 py-2 rounded border shadow-md font-semibold text-white bg-transparent backdrop-blur-sm"
+              className="px-6 py-2 rounded border shadow-md font-semibold text-black bg-slate-200 opacity-50 backdrop-blur-sm"
             >
-              <option value="en">English</option>
-              <option value="ar">Arabic</option>
-              <option value="hi">Hindi</option>
+              <option  value="en">English</option>
+              <option  value="ar">Arabic</option>
+              <option  value="hi">Hindi</option>
             </select>
             <label
               htmlFor="fileUploadInput"

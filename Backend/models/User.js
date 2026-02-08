@@ -19,14 +19,14 @@ const userSchema = new mongoose.Schema({
     age: {
         type: Number,
         min: 0,
-        max:100
+        max: 100
     },
     gender: {
         type: String,
         enum: ['male', 'female'],
     },
-    allergens:{
-        type:[String],
+    allergens: {
+        type: [String],
     },
     height: {
         type: Number,
@@ -41,10 +41,9 @@ const userSchema = new mongoose.Schema({
     goals: {
         type: String,
     },
-    savedProducts: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Product',
-    },
+    savedProducts: [{
+        barcodeNumber: String, productName: String, severityScore: Number , image_url:String
+    }],
     createdAt: {
         type: Date,
         default: Date.now,

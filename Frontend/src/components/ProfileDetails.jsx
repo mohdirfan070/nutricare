@@ -18,11 +18,11 @@ function ProfileDetails({ onBack }) {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
+
   const handleSave = async () => {
     try {
       const res = await axios.put(
-        "http://localhost:8080/user/update",
+        "http://localhost:8080/auth/updateuser",
         formData,
         { withCredentials: true },
       );
@@ -37,32 +37,30 @@ function ProfileDetails({ onBack }) {
 
   return (
     <>
-      <div className="w-[85%] mt-[6%] flex-1 overflow-y-auto scroll-smooth pr-2 space-y-[3%] text-gray-800">
+      <div className="w-[100%] mt-[0%] py-4 px-4 flex-1 overflow-y-auto scroll-smooth no-scrollbar space-y-[3%] text-gray-800 select-none ">
         <button
           onClick={onBack}
-          className="text-green-700 text-lg font-medium mb-2"
+          className=" text-green-700 text-xl font-medium mb-2 select-none "
         >
           ← Back
         </button>
-
         <EditableField
           label="Name"
           name="name"
-          value={formData.name}
+          value={formData.name || ""}
           editMode={editMode}
           onChange={handleChange}
         />
         <EditableField
           label="Email"
           name="email"
-          value={formData.email}
-          editMode={editMode}
-          onChange={handleChange}
+          value={formData.email || ""}
+          editMode={false}
         />
         <EditableField
           label="Age"
           name="age"
-          value={formData.age}
+          value={formData.age || ""}
           editMode={editMode}
           onChange={handleChange}
         />
@@ -72,25 +70,28 @@ function ProfileDetails({ onBack }) {
           value={formData.gender}
           editMode={editMode}
           onChange={handleChange}
+          type="select"
+          options={["Male", "Female"]}
         />
+
         <EditableField
           label="Height"
           name="height"
-          value={formData.height}
+          value={formData.height || ""}
           editMode={editMode}
           onChange={handleChange}
         />
         <EditableField
           label="Weight"
           name="weight"
-          value={formData.weight}
+          value={formData.weight || ""}
           editMode={editMode}
           onChange={handleChange}
         />
         <EditableField
           label="Goals"
           name="goals"
-          value={formData.goals}
+          value={formData.goals || ""}
           editMode={editMode}
           onChange={handleChange}
         />

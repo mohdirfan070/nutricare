@@ -5,26 +5,28 @@ import { useAuthContext } from "../context/Auth";
 
 export default function Login() {
   const [user, setUser] = useState({ email: "", password: "" });
+
   const [loading, setLoading] = useState(false);
-  const { setCurrentUser } = useAuthContext();
-  const navigate  = useNavigate();
+  const { loadUser } = useAuthContext();
+  const navigate = useNavigate();
   const handleChange = (e) =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      const res = await axios.post("http://localhost:8080/auth/login", user, {
-        headers: { "Content-Type": "application/json"  },
-        withCredentials:true
+      await axios.post("http://localhost:8080/auth/login", user, {
+        withCredentials: true,
       });
-      setCurrentUser({...res.data.user});
-      alert(`Login successful! Welcome ${res.data.user?.email || user.email}`);
-      navigate('/');
+
+      await loadUser();
+      alert("Login successful! Welcome back");
+      navigate("/"); // ✅ go to profile page
     } catch (error) {
       if (error.response) {
-        alert(error.response.data.message); // e.g. "Invalid credentials"
+        alert(error.response.data.message);
       }
     } finally {
       setLoading(false);
@@ -42,7 +44,10 @@ export default function Login() {
         <h1 className="font-semibold text-4xl">Login</h1>
         <p className="pt-1">
           Already have an account?{" "}
-          <Link to="/signup" className="text-purple underline cursor-pointer font-bold">
+          <Link
+            to="/signup"
+            className="text-purple underline cursor-pointer font-bold"
+          >
             SignUp
           </Link>
         </p>
@@ -77,7 +82,9 @@ export default function Login() {
             type="submit"
             disabled={loading}
             className={`w-[156px] h-[49px] rounded-[100px] border border-black ${
-              loading ? "bg-gray-300 text-gray-600 cursor-not-allowed" : "bg-[#77FE77] text-[#272727]"
+              loading
+                ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                : "bg-[#77FE77] text-[#272727]"
             }`}
           >
             {loading ? "Submitting..." : "Submit"}

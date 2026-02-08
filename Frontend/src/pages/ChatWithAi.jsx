@@ -1,29 +1,24 @@
 import { useState, useRef, useEffect } from "react";
 import { useProductContext } from "../context/ProductContext";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 
-const getResponseFromAi = async (payload) => {
+// 🔹 Streaming helper
+const getResponseFromAiStream = async (payload, onChunk) => {
   try {
-  const result =  await window.puter.ai.chat(`  ${payload}`,{ model: "gpt-5-nano" });
-      return result;
-  } catch (error) {
-    console.error("AI Response Error:", error);
-    return null;
-  }
-};
-
-const saveChatHistory = async (chatMessages, productContext) => {
-  try {
-    await axios.post("http://localhost:8080/auth/saveChat", {
-      productId: productContext?.id,
-      productName: productContext?.product_name || productContext?.brands,
-      chats: chatMessages,
+    const resp = await window.puter.ai.chat(JSON.stringify(payload), {
+      model: "gpt-5-nano",
+      stream: true,
     });
-    alert("Chat saved successfully!");
+
+    let fullText = "";
+    for await (const part of resp) {
+      fullText += part?.text || "";
+      onChunk(fullText); // progressively update UI
+    }
+    return fullText;
   } catch (error) {
-    console.error("Error saving chat history:", error);
-    alert("Failed to save chat. Try again later.");
+    console.error("AI Stream Error:", error);
+    return null;
   }
 };
 
@@ -36,7 +31,6 @@ export default function ChatWithAi() {
   }
 
   const [chatMessages, setChatMessages] = useState(() => {
-    // Load previous chats from localStorage if available
     const savedChats = localStorage.getItem("chatHistory");
     return savedChats
       ? JSON.parse(savedChats)
@@ -56,72 +50,53 @@ export default function ChatWithAi() {
   const [aiTypingText, setAiTypingText] = useState("");
   const bottomRef = useRef(null);
 
-  // Persist chats in localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("chatHistory", JSON.stringify(chatMessages));
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages, aiTypingText]);
 
- const handleSend = async () => {
-  if (!inputText.trim() || loading) return;
+  const handleSend = async () => {
+    if (!inputText.trim() || loading) return;
 
-  const userMessage = {
-    text: inputText,
-    time: new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
-    sender: "user",
-  };
+    const userMessage = {
+      text: inputText,
+      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      sender: "user",
+    };
 
-  // Add user message to state
-  setChatMessages((prev) => [...prev, userMessage]);
-  setInputText("");
-  setLoading(true);
-  setAiTypingText("Analyzing...");
+    setChatMessages((prev) => [...prev, userMessage]);
+    setInputText("");
+    setLoading(true);
+    setAiTypingText("...");
 
-  try {
-    
-    const res = await getResponseFromAi({
-      id: "070",
-      username: "mohdirfan070",
-      productName: productContext?.product_name,
-      product: { ...productContext },
-      chats: [...chatMessages, userMessage], // ✅ send full chat history
-    });
+    try {
+      const payload = {
+        id: "070",
+        username: "mohdirfan070",
+        productName: productContext?.product_name,
+        product: { ...productContext },
+        chats: [...chatMessages, userMessage],
+      };
 
-    setAiTypingText("Generating Answer...");
+      let finalText = "";
+      const streamedText = await getResponseFromAiStream(payload, (chunk) => {
+        setAiTypingText(chunk); // show live typing
+        finalText = chunk;
+      });
 
-    const aiMessage = res?.msg
-      ? {
-          text: `${res.msg} ${res.payload?.productName || ""}`,
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-          sender: "ai",
-        }
-      : {
-          text: "Can't process your request.\nTry again later!",
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-          sender: "ai",
-        };
+      const aiMessage = {
+        text: streamedText || "Can't process your request.\nTry again later!",
+        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        sender: "ai",
+      };
 
-    setChatMessages((prev) => [...prev, aiMessage]);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
-    setAiTypingText("");
-  }
-};
-
-
-  const handleSaveChat = () => {
-    saveChatHistory(chatMessages, productContext);
+      setChatMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+      setAiTypingText("");
+    }
   };
 
   return (
@@ -129,41 +104,36 @@ export default function ChatWithAi() {
       {productContext ? (
         <div className="flex flex-col h-[100dvh] w-[100dvw] bg-gray-100 z-[2]">
           {/* Header */}
-          <div className="flex items-center justify-between bg-green-600 text-white px-4 py-2">
+          <div className="flex items-center justify-between bg-green-600 text-white px-4 py-4">
             <div className="flex items-center">
               <Link to={"/barcode"} className="mr-3">←</Link>
               <div>
-                <h2 className="font-semibold">GeminiAI</h2>
+                <h2 className="font-semibold">GPT-5</h2>
                 <p className="text-xs text-green-200">
                   Product: {productContext.product_name || productContext.brands}
                 </p>
               </div>
             </div>
-            {/* Save Chat Button */}
-            <button
-              onClick={handleSaveChat}
-              className="text-green-600 mt-2 font-bold bg-white px-3 py-1 rounded hover:bg-green-100"
-            >
-              Save Chat
-            </button>
           </div>
 
           {/* Chat Area */}
           <div className="flex-1 overflow-y-auto px-3 py-2 bg-chat-bg">
             {chatMessages.map((msg, index) => (
               <div key={index} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"} mb-2`}>
-                <div className={`relative max-w-[75%] px-3 py-2 rounded-lg shadow 
+                <div className={`relative max-w-[75%] min-w-[25%] px-3 py-2 rounded-lg shadow min-w-min
                   ${msg.sender === "user" ? "bg-green-500 text-white rounded-br-none" : "bg-white text-gray-800 rounded-bl-none"}`}>
                   <p className="whitespace-pre-line break-words">{msg.text}</p>
-                  <span className={`absolute bottom-0 text-[0.65rem] text-gray-400 
+                  <span className={`absolute bottom-0 text-[0.65rem] text-gray-400 min-w-max
                     ${msg.sender === "user" ? "right-2" : "left-2"}`}>
+                      <span className={`${msg.sender === "user" ? "text-darkgreen" : "black"}`}>
                     {msg.time}
+                      </span>
                   </span>
                 </div>
               </div>
             ))}
 
-            {/* Typing Indicator */}
+             {/* Typing Indicator */}
             {loading && aiTypingText && (
               <div className="flex justify-start mb-2">
                 <div className="bg-white text-gray-600 px-3 py-2 rounded-lg shadow">

@@ -1,38 +1,34 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const UserAuthContext = createContext();
 
-const getUserData = async (token) => {
-  try {
-    const result = await axios.post("http://localhost:8080/auth/getuser", {token} ,  {withCredentials:true}); 
-    return result.data.user;
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    return null;
-  }
-};
-
 export default function AuthContextComponent({ children }) {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const loadUser = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/auth/getuser",
+        {},
+        { withCredentials: true }
+      );
+      setCurrentUser(res.data.user);
+      // console.log(res.data.user);
+    } catch (err) {
+      setCurrentUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      (async () => {
-        const user = await getUserData(token);
-        setCurrentUser(user);
-      })();
-    }
+    loadUser(); // 🔥 runs when app starts
   }, []);
 
-  useEffect(() => {
-    // console.log("Current User:", currentUser);
-  }, [currentUser]);
-
   return (
-    <UserAuthContext.Provider value={{ currentUser, setCurrentUser }}>
+    <UserAuthContext.Provider value={{ currentUser, setCurrentUser, loadUser, loading }}>
       {children}
     </UserAuthContext.Provider>
   );

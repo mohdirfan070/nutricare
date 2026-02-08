@@ -128,8 +128,9 @@ export default function BarcodeScan() {
               response.data.product &&
               Object.keys(response.data.product).length > 0
             ) {
-              // await axios.post("/user/history", { userId:currentUser.email });
-              console.log(barcode);
+              
+
+
               setProductData(response.data.product);
               updateProductContext(response.data.product);
             } else {
